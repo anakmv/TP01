@@ -57,8 +57,7 @@ void FloodFill(PGM *entrada, int x, int y, unsigned char corAtual, unsigned char
     entrada->imagem[x][y] = novaCor;
     saida->imagem = entrada->imagem;
     
-    teste
-    teste
+    oi minnie
     
     FloodFill(entrada, x + 1, y, corAtual, novaCor, saida);
     FloodFill(entrada, x - 1, y, corAtual, novaCor, saida);
