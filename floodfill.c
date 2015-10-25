@@ -90,8 +90,38 @@ void FloodFill(PGM *entrada, int x, int y, unsigned char corAtual, unsigned char
 //             if(!push(x, y - 1)) return;           
 //         }    
 //     }     
-//}
+// }
     
+void FloodFill(PGM *entrada, int x, int y, unsigned char corAtual, unsigned char novaCor, PGM *saida)
+{
+    if (corAtual == novaCor) return;
+
+    TipoPilha* Pilha;
+    FPVazia Pilha;
+    Empilha(Pilha, entrada->imagem[x][y]);
+
+    while (Vazia(Pilha) == 0)
+    {
+        aux = Pilha->topo.Chave;
+        Desempilha(Pilha, aux);
+
+        if(aux == corAtual)
+        {
+        entrada->imagem[x][y] == novaCor;
+
+            if(x + 1 > 0 && x + 1 <= entrada->l && y > 0 && y <= entrada->c)
+                Empilha(Pilha, entrada->imagem[x + 1][y]);
+            if(x + 1 > 0 && x + 1 <= entrada->l && y > 0 && y <= entrada->c)
+                Empilha(Pilha, entrada->imagem[x - 1][y]);
+            if(x + 1 > 0 && x + 1 <= entrada->l && y > 0 && y <= entrada->c)
+                Empilha(Pilha, entrada->imagem[x][y + 1]);
+            if(x + 1 > 0 && x + 1 <= entrada->l && y > 0 && y <= entrada->c)
+                Empilha(Pilha, entrada->imagem[x][y - 1]);
+        }
+
+        saida->imagem[x][y] == entrada->imagem[x][y];
+    }
+}
 
 void int2char (int item, FILE* fp){
     fprintf(fp, "%d", item);
