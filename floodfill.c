@@ -63,37 +63,6 @@ void FloodFill(PGM *entrada, int x, int y, unsigned char corAtual, unsigned char
 
 }
 
-// void FloodFill(PGM *entrada, int x, int y, unsigned char corAtual, unsigned char novaCor, PGM *saida)
-// {
-//     TipoPilha* Aux;
-//     FPVazia(Aux);
-//     if (corAtual == novaCor) return;
-//     while (Vazia(Aux) == 0)
-//         Desempilha(Aux);
-//     while(Vazia(Aux) == 0)
-//     {
-//         saida->imagem[y][x] = novaCor;
-//         if(x + 1 < entrada->c && entrada->imagem[x + 1][y] == corAtual)
-//         {          
-//             if(!push(x + 1, y)) return;           
-//         }    
-//         if(x - 1 >= 0 && entrada->imagem[x - 1][y] == corAtual)
-//         {
-//             if(!push(x - 1, y)) return;           
-//         }    
-//         if(y + 1 < h && entrada->imagem[x][y + 1] == corAtual)
-//         {
-//             if(!push(x, y + 1)) return;           
-//         }    
-//         if(y - 1 >= 0 && entrada->imagem[x][y - 1] == corAtual)
-//         {
-//             if(!push(x, y - 1)) return;           
-//         }    
-//     }     
-// }
-    
-// 
-
 void FloodFillNR(PGM *entrada, int x, int y, unsigned char corAtual, unsigned char novaCor, PGM *saida)
 {
     if (corAtual == novaCor) return;
@@ -179,4 +148,89 @@ void SalvarPGM(PGM* img, char* saida){
 fputs("\n", fp);
 
     }
+}
+
+void FloodFillNR8(PGM *entrada, int x, int y, unsigned char corAtual, unsigned char novaCor, PGM *saida)
+{
+    if (corAtual == novaCor) return;
+
+    TipoPilha pilha;
+    FPVazia(&pilha);
+
+    TipoItem pixel;
+
+    pixel.X = x;
+    pixel.Y = y;
+ 
+    Empilha(&pilha, pixel);
+
+    while(Vazia(pilha) == 0){
+        Desempilha(&pilha, &pixel);
+        // printf("desempilhou: %d %d\n",pixel.X,pixel.Y);
+
+        if(entrada->imagem[pixel.X][pixel.Y] == corAtual){
+            entrada->imagem[pixel.X][pixel.Y] = novaCor;
+            saida->imagem = entrada->imagem;
+
+            //testa condições de fronteira do pixel leste
+            if ((pixel.X+1)>=0 && (pixel.X+1)<entrada->l){
+                // printf("empilhou leste\n");
+                TipoItem leste;
+                leste = pixel;
+                leste.X++;
+                Empilha(&pilha, leste);
+            }
+            //testa condições de fronteira do pixel oeste
+            if ((pixel.X-1)>=0 && (pixel.X-1)<entrada->l){
+                // printf("empilhou oeste\n");
+                TipoItem oeste;
+                oeste = pixel;
+                oeste.X--;
+                Empilha(&pilha, oeste);
+            }
+            //testa condições de fronteira do pixel norte
+            if ((pixel.Y+1)>=0 && (pixel.Y+1)<entrada->c){
+                // printf("empilhou norte\n");
+                TipoItem norte;
+                norte = pixel;
+                norte.Y++;
+                Empilha(&pilha, norte);
+            }
+            //testa condições de fronteira do pixel sul
+            if ((pixel.Y-1)>=0 && (pixel.Y-1)<entrada->c){
+                // printf("empilhou sul\n");
+                TipoItem sul;
+                sul = pixel;
+                sul.Y--;
+                Empilha(&pilha, sul);
+            }
+            //testa condições de fronteira do pixel sudeste
+            if ((pixel.X+1)>=0 && (pixel.X+1)<entrada->l && (pixel.Y-1)>=0 && (pixel.Y-1)<entrada->c){
+                // printf("empilhou sudeste\n");
+                TipoItem sudeste;
+                sudeste = pixel;
+                sudeste.X++;
+                sudeste.Y--;
+                Empilha(&pilha, sudeste);
+            }
+            //testa condições de fronteira do pixel sudoeste
+            if ((pixel.X-1)>=0 && (pixel.X-1)<entrada->l && (pixel.Y-1)>=0 && (pixel.Y-1)<entrada->c){
+                // printf("empilhou sudoeste\n");
+                TipoItem sudoeste;
+                sudoeste = pixel;
+                sudoeste.X--;
+                sudoeste.Y--;
+                Empilha(&pilha, sudoeste);
+            }
+            //testa condições de fronteira do pixel nordeste
+            if ((pixel.X+1)>=0 && (pixel.X+1)<entrada->l && (pixel.Y-1)>=0 && (pixel.Y-1)<entrada->c){
+                // printf("empilhou nordeste\n");
+                TipoItem nordeste;
+                nordeste = pixel;
+                nordeste.X++;
+                nordeste.Y++;
+                Empilha(&pilha, nordeste);
+            }
+        }
+    } 
 }
