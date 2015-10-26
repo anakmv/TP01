@@ -92,35 +92,64 @@ void FloodFill(PGM *entrada, int x, int y, unsigned char corAtual, unsigned char
 //     }     
 // }
     
-void FloodFill(PGM *entrada, int x, int y, unsigned char corAtual, unsigned char novaCor, PGM *saida)
+// 
+
+void FloodFillNR(PGM *entrada, int x, int y, unsigned char corAtual, unsigned char novaCor, PGM *saida)
 {
     if (corAtual == novaCor) return;
 
-    TipoPilha* Pilha;
-    FPVazia Pilha;
-    Empilha(Pilha, entrada->imagem[x][y]);
+    TipoPilha pilha;
+    FPVazia(&pilha);
 
-    while (Vazia(Pilha) == 0)
-    {
-        aux = Pilha->topo.Chave;
-        Desempilha(Pilha, aux);
+    TipoItem pixel;
 
-        if(aux == corAtual)
-        {
-        entrada->imagem[x][y] == novaCor;
+    pixel.X = x;
+    pixel.Y = y;
+ 
+    Empilha(&pilha, pixel);
 
-            if(x + 1 > 0 && x + 1 <= entrada->l && y > 0 && y <= entrada->c)
-                Empilha(Pilha, entrada->imagem[x + 1][y]);
-            if(x + 1 > 0 && x + 1 <= entrada->l && y > 0 && y <= entrada->c)
-                Empilha(Pilha, entrada->imagem[x - 1][y]);
-            if(x + 1 > 0 && x + 1 <= entrada->l && y > 0 && y <= entrada->c)
-                Empilha(Pilha, entrada->imagem[x][y + 1]);
-            if(x + 1 > 0 && x + 1 <= entrada->l && y > 0 && y <= entrada->c)
-                Empilha(Pilha, entrada->imagem[x][y - 1]);
+    while(Vazia(pilha) == 0){
+        Desempilha(&pilha, &pixel);
+        // printf("desempilhou: %d %d\n",pixel.X,pixel.Y);
+
+        if(entrada->imagem[pixel.X][pixel.Y] == corAtual){
+            entrada->imagem[pixel.X][pixel.Y] = novaCor;
+            saida->imagem = entrada->imagem;
+
+            //testa condições de fronteira do pixel leste
+            if ((pixel.X+1)>=0 && (pixel.X+1)<entrada->l){
+                // printf("empilhou leste\n");
+                TipoItem leste;
+                leste = pixel;
+                leste.X++;
+                Empilha(&pilha, leste);
+            }
+            //testa condições de fronteira do pixel oeste
+            if ((pixel.X-1)>=0 && (pixel.X-1)<entrada->l){
+                // printf("empilhou oeste\n");
+                TipoItem oeste;
+                oeste = pixel;
+                oeste.X--;
+                Empilha(&pilha, oeste);
+            }
+            //testa condições de fronteira do pixel norte
+            if ((pixel.Y+1)>=0 && (pixel.Y+1)<entrada->c){
+                // printf("empilhou norte\n");
+                TipoItem norte;
+                norte = pixel;
+                norte.Y++;
+                Empilha(&pilha, norte);
+            }
+            //testa condições de fronteira do pixel sul
+            if ((pixel.Y-1)>=0 && (pixel.Y-1)<entrada->c){
+                // printf("empilhou sul\n");
+                TipoItem sul;
+                sul = pixel;
+                sul.Y--;
+                Empilha(&pilha, sul);
+            }
         }
-
-        saida->imagem[x][y] == entrada->imagem[x][y];
-    }
+    } 
 }
 
 void int2char (int item, FILE* fp){

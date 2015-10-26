@@ -6,36 +6,39 @@
 
 void FPVazia(TipoPilha* Pilha)
 {
-	Pilha->topo = (Apontador)malloc (sizeof(Celula));
-	Pilha->fundo  = Pilha->topo;
-	Pilha->topo->prox = NULL;
+	Pilha->Topo = (Apontador)malloc(sizeof(Celula));
+	Pilha->Fundo  = Pilha->Topo;
+	Pilha->Topo->Prox = NULL;
 	Pilha->Tamanho = 0;
 }
 
-int Vazia(TipoPilha* Pilha)
+int Vazia(TipoPilha Pilha)
 {
-	return (Pilha->topo == Pilha->fundo);
+	return (Pilha.Topo == Pilha.Fundo);
 }
 
 void Empilha(TipoPilha* Pilha, TipoItem x)
 {
-	Apontador novo;
-	novo = (Apontador) malloc(sizeof(Celula));
-	Pilha->topo->Item = x;
-	novo->prox = Pilha->topo;
-	Pilha->topo = novo;
+	Apontador Aux;
+	Aux = (Apontador) malloc(sizeof(Celula));
+	Pilha->Topo->Item = x;
+	Aux->Prox = Pilha->Topo;
+	Pilha->Topo = Aux;
 	Pilha->Tamanho++;
 }
 
-int Desempilha(TipoPilha* Pilha, TipoItem* item)
+void Desempilha(TipoPilha *Pilha, TipoItem *item)
 {
 	Apontador q;
-	if(Vazia(Pilha)) printf("Pilha vazia"); return 0;
-	q = Pilha->topo;
-	Pilha->topo = q->prox;
+	if(Vazia(*Pilha)){
+		printf("Pilha vazia\n"); 
+	return;
+	}
+	q = Pilha->Topo;
+	Pilha->Topo = q->Prox;
+	*item = q->Prox->Item; 
 	free(q);
-	Pilha->Tamanho --;
-	*item = Pilha->topo->Item; return 1; 
+	Pilha->Tamanho--;
 }
 
 

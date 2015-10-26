@@ -1,34 +1,34 @@
 #ifndef PILHA_H
 #define PILHA_H
-#define MaxTam 1000
 
 
-typedef int TipoChave;
+typedef unsigned char TipoChave;
 
 typedef struct {
-	TipoChave Chave;
+	int X;
+	int Y;
 }TipoItem;
 
-typedef struct Celula_str* Apontador;
+typedef struct Celula *Apontador;
 
-typedef struct Celula_str
+typedef struct Celula
 {
 	TipoItem Item;
-	Apontador prox;
-} Celula;
+	Apontador Prox;
+}Celula;
 
 typedef struct 
 {
-	Apontador fundo, topo;
+	Apontador Fundo, Topo;
 	int Tamanho;
-} TipoPilha;
+}TipoPilha;
 
 void FPVazia(TipoPilha* Pilha);
 
-int Vazia(TipoPilha* Pilha);
+int Vazia(TipoPilha Pilha);
 
 void Empilha(TipoPilha* Pilha, TipoItem x);
 
-int Desempilha(TipoPilha* Pilha, TipoItem* item);
+void Desempilha(TipoPilha* Pilha, TipoItem* item);
 
 #endif

@@ -16,6 +16,8 @@ PGM* LerPGM(char* entrada);
 
 void FloodFill(PGM *entrada, int x, int y, unsigned char corAtual, unsigned char novaCor, PGM *saida);
 
+void FloodFillNR(PGM *entrada, int x, int y, unsigned char corAtual, unsigned char novaCor, PGM *saida);
+
 void int2char (int item, FILE* fp);
 
 void SalvarPGM(PGM* img, char* saida);

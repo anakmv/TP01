@@ -13,15 +13,13 @@ int main(int argc, char const *argv[])
 	PGM* saida = New_Matriz_Pgm(entrada->l, entrada->c);
 	char* ff = (char*)argv[4];
 
-	int x = *argv[2] - 48;
-	int y = *argv[3] - 48;
-
-	printf("%d",y);
+	int x = atoi(argv[2]);
+	int y = atoi(argv[3]);
 
 	corAtual = entrada->imagem [x][y];
 	novaCor = 127;
 	
-	FloodFill(entrada, x, y, corAtual, novaCor, saida);
+	FloodFillNR(entrada, x, y, corAtual, novaCor, saida);
 
 	SalvarPGM(saida, ff);
 
